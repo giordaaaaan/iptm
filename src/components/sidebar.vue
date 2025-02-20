@@ -36,7 +36,6 @@ export default {
 
 .sidebar {
     position: fixed;
-    /* Ensures the sidebar stays fixed relative to the viewport */
     top: 0;
     left: 0;
     height: 100vh;
