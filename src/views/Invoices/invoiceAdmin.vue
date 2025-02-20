@@ -1,0 +1,3 @@
+<template>
+    invAdmin
+</template>
