@@ -61,7 +61,6 @@ export default {
                 iid: "",
                 filename: ""
             },
-            // Sample data – replace with your actual data or API call
             invoices: [
                 {
                     processor: "System",
@@ -72,8 +71,47 @@ export default {
                     remarks: "NA",
                     oldStatus: "New",
                     newStatus: "New"
+                },
+                {
+                    processor: "ADMIN_JOHN B",
+                    actionDate: "2025-01-31 09:05:20",
+                    action: "Assigned to processor",
+                    iid: "AP000831",
+                    filename: "Levono_Invoice90201.pdf",
+                    remarks: "Assign to Reina",
+                    oldStatus: "New",
+                    newStatus: "Assigned"
+                },
+                {
+                    processor: "Reina Tatlonghari",
+                    actionDate: "2025-01-31 09:49:40",
+                    action: "Status Change",
+                    iid: "AP000831",
+                    filename: "Levono_Invoice90201.pdf",
+                    remarks: "For payment",
+                    oldStatus: "Assigned",
+                    newStatus: "Processed"
+                },
+                {
+                    processor: "CLERK_MARIA",
+                    actionDate: "2025-01-31 09:50:20",
+                    action: "Assigned to processor",
+                    iid: "AP000865",
+                    filename: "Chamito_Invoice001.pdf",
+                    remarks: "Assign to Juan",
+                    oldStatus: "Assigned",
+                    newStatus: "Assigned"
+                },
+                {
+                    processor: "Juan dela Cruz",
+                    actionDate: "2025-01-31 10:10:40",
+                    action: "Status Change",
+                    iid: "AP000865",
+                    filename: "Chamito_Invoice001.pdf",
+                    remarks: "Incorrect Amount",
+                    oldStatus: "Returned",
+                    newStatus: "Returned"
                 }
-                // ... more rows
             ]
         };
     },
@@ -99,15 +137,16 @@ export default {
 
 <style scoped>
 .container {
-    /* Offset the container to the right to account for the sidebar */
-    margin: 20px 20px 20px 320px;
-    /* Top, right, bottom, left */
-    width: calc(100% - 320px);
-    /* Adjust width to prevent horizontal overflow */
+    margin: 20px 20px 20px 170px; 
+    width: 100%;
     background-color: white;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
+    min-height: calc(100vh - 40px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
 .filters {
