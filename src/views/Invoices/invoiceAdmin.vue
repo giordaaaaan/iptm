@@ -128,11 +128,11 @@
       },
       assignInvoice(invoice) {
         console.log("Assign invoice", invoice);
-        // Implement assign logic here.
+        
       },
       exportReport() {
         console.log("Exporting report", this.filteredInvoices);
-        // Implement CSV/Excel export functionality here.
+        
       }
     }
   };
@@ -140,7 +140,7 @@
   
   <style scoped>
   .container {
-    margin: 20px 20px 20px 170px; /* Top, right, bottom, left */
+    margin: 20px 20px 20px 170px; 
     width: 100%;
     background-color: white;
     padding: 20px;

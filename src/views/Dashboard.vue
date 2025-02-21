@@ -129,7 +129,6 @@ export default {
     methods: {
         exportReport() {
             console.log("Export report", this.filteredInvoices);
-            // Implement CSV/Excel export functionality here.
         }
     }
 };

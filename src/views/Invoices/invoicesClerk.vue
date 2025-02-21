@@ -81,7 +81,6 @@
             processor: "Juan dela Cruz",
             status: "Assigned"
           }
-          // Only show invoices with status New or Assigned.
         ]
       };
     },

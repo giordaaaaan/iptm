@@ -137,7 +137,6 @@
     methods: {
       saveInvoice() {
         console.log("Invoice saved", this.invoice);
-        // Implement the save functionality (e.g., API call).
       }
     }
   };

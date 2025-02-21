@@ -145,11 +145,9 @@
     methods: {
       assignProcessor() {
         console.log("Assign Processor triggered");
-        // Implement assign processor logic (e.g., API call).
       },
       saveRemarks() {
         console.log("Remarks saved:", this.remarks);
-        // Implement save remarks logic (e.g., API call).
       }
     }
   };

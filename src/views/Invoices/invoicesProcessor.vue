@@ -52,7 +52,6 @@
             <td>{{ invoice.processor }}</td>
             <td>
               <button class="show-btn" @click="showInvoice(invoice)">Show</button>
-              <!-- 'Assign' button is hidden for processor view -->
             </td>
             <td>{{ invoice.status }}</td>
           </tr>
@@ -76,7 +75,6 @@
           processor: "",
           status: ""
         },
-        // Sample data – only invoices assigned to the processor should appear.
         invoices: [
           {
             iid: "AP000865",
