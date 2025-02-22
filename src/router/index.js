@@ -1,12 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Dashboard from '../views/Dashboard.vue'
-import DataReport from '../views/datareport.vue'
-import AuditLogs from '../views/auditlogs.vue'
-import InvoiceAdmin from '../views/Invoices/invoiceAdmin.vue'
-import InvoicesClerk from '../views/Invoices/invoicesClerk.vue'
-import InvoicesProcessor from '../views/Invoices/invoicesProcessor.vue'
-import InvoiceShowAdmin from '../views/Invoices/invoiceDetails/invoiceShowAdmin.vue'
-import InvoiceShowProcessor from '../views/Invoices/invoiceDetails/invoiceShowProcessor.vue'
+import Dashboard from '../views/dashboard.vue'
+import DataReport from '../views/data-report.vue'
+import AuditLogs from '../views/audit-logs.vue'
+import InvoiceAdmin from '../views/Invoices/invoice-admin.vue'
+import InvoicesClerk from '../views/Invoices/invoices-clerk.vue'
+import InvoicesProcessor from '../views/Invoices/invoices-processor.vue'
+import InvoiceShowAdmin from '../views/Invoices/invoiceDetails/invoice-show-admin.vue'
+import InvoiceShowProcessor from '../views/Invoices/invoiceDetails/invoice-show-processor.vue'
 
 const routes = [
   { path: '/dashboard', component: Dashboard },

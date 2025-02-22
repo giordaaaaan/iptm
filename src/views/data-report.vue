@@ -119,8 +119,9 @@ export default {
 
 <style scoped>
 .container {
-  margin: 20px 20px 20px 170px; /* Top, Right, Bottom, Left */
-  width: calc(100% - 170px);
+  margin: 20px 20px 20px 100px;
+  /* Top, Right, Bottom, Left */
+  width: calc(100% - 100px);
   background-color: white;
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -160,10 +161,11 @@ export default {
 
 .invoice-table {
   width: 100%;
+  min-width: 1200px;
   margin-top: 20px;
   border-collapse: collapse;
-  font-size: 14px;
-  table-layout: auto;
+  font-size: 12px;
+  table-layout: fixed;
 }
 
 .invoice-table th,

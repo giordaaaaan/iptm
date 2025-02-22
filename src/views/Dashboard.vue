@@ -136,7 +136,7 @@ export default {
 
 <style scoped>
 .container {
-    margin: 20px 20px 20px 170px; 
+    margin: 20px 20px 20px 100px;
     width: 100%;
     background-color: white;
     padding: 20px;
@@ -177,6 +177,7 @@ export default {
 
 .invoice-table {
     width: 100%;
+    min-width: 1100px;
     margin-top: 20px;
     border-collapse: collapse;
     font-size: 14px;
