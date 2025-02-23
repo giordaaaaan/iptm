@@ -59,61 +59,55 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "DataReport",
-  data() {
-    return {
-      processedFrom: "",
-      processedTo: "",
-      reports: [
-        {
-          processedDate: "2025-01-29 20:40:05",
-          processedBy: "oh_processor",
-          id: "9a01a942-f984-45f7-a342-263af283164d",
-          vendorName: "HC Consumer Finance",
-          customer: "Infobip Philippines Inc.",
-          invoiceNumber: "2500/23",
-          poNumber: "",
-          grNumber: "009-676-542-000",
-          birNumber: "Tax",
-          hcTin: "",
-          vendorTin: "12/05/2023",
-          invoiceType: "01/19/2024",
-          invoiceDate: "",
-          dueDate: "",
-          totalAmount: "1,219,112.30",
-          totalAmountWords: "",
-          currency: "PHP"
-        },
-        {
-          processedDate: "2025-01-31 09:15:27",
-          processedBy: "oh_processor",
-          id: "80729c24-4d90-4566-aef7-30243b33992f",
-          vendorName: "HC Consumer Finance",
-          customer: "Crown Worldwide Movers, Inc.",
-          invoiceNumber: "315601-008327",
-          poNumber: "",
-          grNumber: "1234567890",
-          birNumber: "INVOICE",
-          hcTin: "",
-          vendorTin: "07/31/2024",
-          invoiceType: "30 days",
-          invoiceDate: "",
-          dueDate: "",
-          totalAmount: "203,515.20",
-          totalAmountWords: "",
-          currency: "PHP"
-        }
-      ]
-    };
+<script setup>
+import { ref } from 'vue';
+
+const processedFrom = ref('');
+const processedTo = ref('');
+const reports = ref([
+  {
+    processedDate: "2025-01-29 20:40:05",
+    processedBy: "oh_processor",
+    id: "9a01a942-f984-45f7-a342-263af283164d",
+    vendorName: "HC Consumer Finance",
+    customer: "Infobip Philippines Inc.",
+    invoiceNumber: "2500/23",
+    poNumber: "",
+    grNumber: "009-676-542-000",
+    birNumber: "Tax",
+    hcTin: "",
+    vendorTin: "12/05/2023",
+    invoiceType: "01/19/2024",
+    invoiceDate: "",
+    dueDate: "",
+    totalAmount: "1,219,112.30",
+    totalAmountWords: "",
+    currency: "PHP"
   },
-  methods: {
-    exportReport() {
-      console.log("Exporting report", this.reports);
-      // Implement export functionality as needed.
-    }
+  {
+    processedDate: "2025-01-31 09:15:27",
+    processedBy: "oh_processor",
+    id: "80729c24-4d90-4566-aef7-30243b33992f",
+    vendorName: "HC Consumer Finance",
+    customer: "Crown Worldwide Movers, Inc.",
+    invoiceNumber: "315601-008327",
+    poNumber: "",
+    grNumber: "1234567890",
+    birNumber: "INVOICE",
+    hcTin: "",
+    vendorTin: "07/31/2024",
+    invoiceType: "30 days",
+    invoiceDate: "",
+    dueDate: "",
+    totalAmount: "203,515.20",
+    totalAmountWords: "",
+    currency: "PHP"
   }
+]);
+
+const exportReport = () => {
+  console.log("Exporting report", reports.value);
+  // Implement export functionality as needed.
 };
 </script>
 

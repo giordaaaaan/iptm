@@ -64,74 +64,72 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "InvoiceAdmin",
-  data() {
-    return {
-      createdFrom: "",
-      createdTo: "",
-      processedFrom: "",
-      processedTo: "",
-      filters: {
-        iid: "",
-        filename: "",
-        processor: "",
-        status: ""
-      },
-      invoices: [
-        {
-          iid: "AP000031",
-          filename: "CocaBola_Invoice001.pdf",
-          createDate: "2025-01-31 08:49:40",
-          processDate: "NA",
-          processor: "Unassigned",
-          status: "New"
-        },
-        {
-          iid: "AP000865",
-          filename: "Chamito_Invoice001.pdf",
-          createDate: "2025-01-31 08:49:40",
-          processDate: "NA",
-          processor: "Juan dela Cruz",
-          status: "Assigned"
-        },
-        {
-          iid: "AP000831",
-          filename: "Levono_Invoice90201.pdf",
-          createDate: "2025-01-31 08:49:40",
-          processDate: "2025-02-03 10:36:41",
-          processor: "Reina Tatlonghari",
-          status: "Cancelled"
-        }
-      ]
-    };
-  },
-  computed: {
-    filteredInvoices() {
-      return this.invoices.filter(invoice => {
-        return (
-          invoice.iid.toLowerCase().includes(this.filters.iid.toLowerCase()) &&
-          invoice.filename.toLowerCase().includes(this.filters.filename.toLowerCase()) &&
-          invoice.processor.toLowerCase().includes(this.filters.processor.toLowerCase()) &&
-          (this.filters.status === "" || invoice.status === this.filters.status)
-        );
-      });
-    }
-  },
-  methods: {
-    showInvoice(invoice) {
-      this.$router.push(`/invoice/${invoice.iid}/show/admin`);
-    },
-    assignInvoice(invoice) {
-      console.log("Assign invoice", invoice);
+<script setup>
+import { ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
 
-    },
-    exportReport() {
-      console.log("Exporting report", this.filteredInvoices);
+const router = useRouter();
 
-    }
+const createdFrom = ref('');
+const createdTo = ref('');
+const processedFrom = ref('');
+const processedTo = ref('');
+
+const filters = ref({
+  iid: '',
+  filename: '',
+  processor: '',
+  status: ''
+});
+
+const invoices = ref([
+  {
+    iid: "AP000031",
+    filename: "CocaBola_Invoice001.pdf",
+    createDate: "2025-01-31 08:49:40",
+    processDate: "NA",
+    processor: "Unassigned",
+    status: "New"
+  },
+  {
+    iid: "AP000865",
+    filename: "Chamito_Invoice001.pdf",
+    createDate: "2025-01-31 08:49:40",
+    processDate: "NA",
+    processor: "Juan dela Cruz",
+    status: "Assigned"
+  },
+  {
+    iid: "AP000831",
+    filename: "Levono_Invoice90201.pdf",
+    createDate: "2025-01-31 08:49:40",
+    processDate: "2025-02-03 10:36:41",
+    processor: "Reina Tatlonghari",
+    status: "Cancelled"
   }
+]);
+
+const filteredInvoices = computed(() => {
+  return invoices.value.filter(invoice => {
+    return (
+      invoice.iid.toLowerCase().includes(filters.value.iid.toLowerCase()) &&
+      invoice.filename.toLowerCase().includes(filters.value.filename.toLowerCase()) &&
+      invoice.processor.toLowerCase().includes(filters.value.processor.toLowerCase()) &&
+      (filters.value.status === "" || invoice.status === filters.value.status)
+    );
+  });
+});
+
+const showInvoice = (invoice) => {
+  router.push(`/invoice/${invoice.iid}/show/admin`);
+};
+
+const assignInvoice = (invoice) => {
+  console.log("Assign invoice", invoice);
+};
+
+const exportReport = () => {
+  console.log("Exporting report", filteredInvoices.value);
 };
 </script>
 
@@ -204,15 +202,7 @@ export default {
   background-color: #e8e8e8;
 }
 
-.text-filter {
-  width: 120px;
-  padding: 6px;
-  font-size: 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background-color: #fff;
-}
-
+.text-filter,
 .status-filter {
   width: 120px;
   padding: 6px;

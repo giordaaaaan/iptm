@@ -43,55 +43,44 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "AuditLogs",
-  data() {
-    return {
-      startDate: "",
-      endDate: "",
-      auditLogs: [
-        {
-          created: "2025-01-25 20:37:12.17133",
-          user: "Ondrej.Horak1@embedit.com",
-          action: "CREATED",
-          resource: "DOCUMENT / 4f9f9327-18fa-4f63-92f2-b1d0a3a4582a"
-        },
-        {
-          created: "2025-01-20 20:39:45.883924",
-          user: "oh_processor",
-          action: "UPDATED",
-          resource: "INVOICE / 9a01a942-f984-45f7-a342-263af283164d"
-        }
-        // ... more rows
-      ]
-    };
+<script setup>
+import { ref, computed } from 'vue';
+
+const startDate = ref('');
+const endDate = ref('');
+
+const auditLogs = ref([
+  {
+    created: "2025-01-25 20:37:12.17133",
+    user: "Ondrej.Horak1@embedit.com",
+    action: "CREATED",
+    resource: "DOCUMENT / 4f9f9327-18fa-4f63-92f2-b1d0a3a4582a"
   },
-  computed: {
-    startDateDisplay() {
-      return this.startDate || "N/A";
-    },
-    endDateDisplay() {
-      return this.endDate || "N/A";
-    }
-  },
-  methods: {
-    submitDates() {
-      console.log("Dates submitted", this.startDate, this.endDate);
-      // Filter audit logs based on the dates.
-    },
-    exportLogs() {
-      console.log("Export logs", this.auditLogs);
-      // Implement export functionality.
-    }
+  {
+    created: "2025-01-20 20:39:45.883924",
+    user: "oh_processor",
+    action: "UPDATED",
+    resource: "INVOICE / 9a01a942-f984-45f7-a342-263af283164d"
   }
+]);
+
+const startDateDisplay = computed(() => startDate.value || "N/A");
+const endDateDisplay = computed(() => endDate.value || "N/A");
+
+const submitDates = () => {
+  console.log("Dates submitted", startDate.value, endDate.value);
+  // Filter audit logs based on the dates.
+};
+
+const exportLogs = () => {
+  console.log("Export logs", auditLogs.value);
+  // Implement export functionality.
 };
 </script>
 
 <style scoped>
 .container {
   margin: 20px 20px 20px 100px;
-  /* Top, Right, Bottom, Left */
   width: 100%;
   background-color: white;
   padding: 20px;
@@ -155,7 +144,6 @@ export default {
   margin-top: 20px;
   border-collapse: collapse;
   font-size: 14px;
-
 }
 
 .audit-table th,

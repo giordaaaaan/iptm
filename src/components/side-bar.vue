@@ -2,29 +2,34 @@
     <div class="sidebar">
         <ul class="menu">
             <li><span class="main-item">INVOICE PROCESSING TOOL</span></li>
-            <!-- Adjust the route paths as needed based on your user role logic -->
-            <li><router-link to="/invoices/admin">INVOICES</router-link></li>
-            <li><router-link to="/dashboard">DASHBOARD</router-link></li>
-            <li><router-link to="/data-report">DATA REPORT</router-link></li>
-            <!-- Audit Logs only available for admin -->
+            <li>
+                <router-link :to="'/invoices/admin'"
+                    :class="{ active: isActive('/invoices/admin') }">INVOICES</router-link>
+            </li>
+            <li>
+                <router-link :to="'/dashboard'" :class="{ active: isActive('/dashboard') }">DASHBOARD</router-link>
+            </li>
+            <li>
+                <router-link :to="'/data-report'" :class="{ active: isActive('/data-report') }">DATA
+                    REPORT</router-link>
+            </li>
             <li v-if="userIsAdmin">
-                <router-link to="/audit-logs">AUDIT LOG</router-link>
+                <router-link :to="'/audit-logs'" :class="{ active: isActive('/audit-logs') }">AUDIT LOG</router-link>
             </li>
         </ul>
     </div>
 </template>
 
-<script>
-export default {
-    name: "Sidebar",
-    data() {
-        return {
-            // For demonstration, we assume the current user is admin.
-            // In a real app, replace this with a computed value from a store or API.
-            userIsAdmin: true
-        }
-    }
-}
+<script setup>
+import { ref } from 'vue';
+import { useRoute } from 'vue-router';
+
+const userIsAdmin = ref(true);
+const route = useRoute();
+
+const isActive = (path) => {
+    return route.path === path;
+};
 </script>
 
 <style scoped>
@@ -45,13 +50,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    z-index: 1000; /* Ensure sidebar stays above other content */
-}
-
-.brand img {
-    width: 100px;
-    height: auto;
-    margin-bottom: 30px;
+    z-index: 1000;
 }
 
 .menu {
@@ -72,11 +71,18 @@ export default {
     align-items: center;
     padding: 7px 12px;
     border-radius: 7px;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .menu li a:hover {
     background-color: #ddd;
+}
+
+/* Active class for the selected route */
+.menu li a.active {
+    background-color: #d32f2f;
+    color: white;
+    font-weight: bold;
 }
 
 .menu .main-item {

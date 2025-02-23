@@ -49,88 +49,31 @@
     </div>
 </template>
 
-<script>
-export default {
-    name: "Dashboard",
-    data() {
-        return {
-            createdFrom: "",
-            createdTo: "",
-            filters: {
-                processor: "",
-                iid: "",
-                filename: ""
-            },
-            invoices: [
-                {
-                    processor: "System",
-                    actionDate: "2025-01-31 08:49:40",
-                    action: "Created",
-                    iid: "AP000031",
-                    filename: "CocaBola_Invoice001.pdf",
-                    remarks: "NA",
-                    oldStatus: "New",
-                    newStatus: "New"
-                },
-                {
-                    processor: "ADMIN_JOHN B",
-                    actionDate: "2025-01-31 09:05:20",
-                    action: "Assigned to processor",
-                    iid: "AP000831",
-                    filename: "Levono_Invoice90201.pdf",
-                    remarks: "Assign to Reina",
-                    oldStatus: "New",
-                    newStatus: "Assigned"
-                },
-                {
-                    processor: "Reina Tatlonghari",
-                    actionDate: "2025-01-31 09:49:40",
-                    action: "Status Change",
-                    iid: "AP000831",
-                    filename: "Levono_Invoice90201.pdf",
-                    remarks: "For payment",
-                    oldStatus: "Assigned",
-                    newStatus: "Processed"
-                },
-                {
-                    processor: "CLERK_MARIA",
-                    actionDate: "2025-01-31 09:50:20",
-                    action: "Assigned to processor",
-                    iid: "AP000865",
-                    filename: "Chamito_Invoice001.pdf",
-                    remarks: "Assign to Juan",
-                    oldStatus: "Assigned",
-                    newStatus: "Assigned"
-                },
-                {
-                    processor: "Juan dela Cruz",
-                    actionDate: "2025-01-31 10:10:40",
-                    action: "Status Change",
-                    iid: "AP000865",
-                    filename: "Chamito_Invoice001.pdf",
-                    remarks: "Incorrect Amount",
-                    oldStatus: "Returned",
-                    newStatus: "Returned"
-                }
-            ]
-        };
-    },
-    computed: {
-        filteredInvoices() {
-            return this.invoices.filter(invoice => {
-                return (
-                    invoice.processor.toLowerCase().includes(this.filters.processor.toLowerCase()) &&
-                    invoice.iid.toLowerCase().includes(this.filters.iid.toLowerCase()) &&
-                    invoice.filename.toLowerCase().includes(this.filters.filename.toLowerCase())
-                );
-            });
-        }
-    },
-    methods: {
-        exportReport() {
-            console.log("Export report", this.filteredInvoices);
-        }
-    }
+<script setup>
+import { ref, computed } from "vue";
+
+const createdFrom = ref("");
+const createdTo = ref("");
+const filters = ref({ processor: "", iid: "", filename: "" });
+
+const invoices = ref([
+    { processor: "System", actionDate: "2025-01-31 08:49:40", action: "Created", iid: "AP000031", filename: "CocaBola_Invoice001.pdf", remarks: "NA", oldStatus: "New", newStatus: "New" },
+    { processor: "ADMIN_JOHN B", actionDate: "2025-01-31 09:05:20", action: "Assigned to processor", iid: "AP000831", filename: "Levono_Invoice90201.pdf", remarks: "Assign to Reina", oldStatus: "New", newStatus: "Assigned" },
+    { processor: "Reina Tatlonghari", actionDate: "2025-01-31 09:49:40", action: "Status Change", iid: "AP000831", filename: "Levono_Invoice90201.pdf", remarks: "For payment", oldStatus: "Assigned", newStatus: "Processed" },
+    { processor: "CLERK_MARIA", actionDate: "2025-01-31 09:50:20", action: "Assigned to processor", iid: "AP000865", filename: "Chamito_Invoice001.pdf", remarks: "Assign to Juan", oldStatus: "Assigned", newStatus: "Assigned" },
+    { processor: "Juan dela Cruz", actionDate: "2025-01-31 10:10:40", action: "Status Change", iid: "AP000865", filename: "Chamito_Invoice001.pdf", remarks: "Incorrect Amount", oldStatus: "Returned", newStatus: "Returned" }
+]);
+
+const filteredInvoices = computed(() => {
+    return invoices.value.filter(invoice =>
+        invoice.processor.toLowerCase().includes(filters.value.processor.toLowerCase()) &&
+        invoice.iid.toLowerCase().includes(filters.value.iid.toLowerCase()) &&
+        invoice.filename.toLowerCase().includes(filters.value.filename.toLowerCase())
+    );
+});
+
+const exportReport = () => {
+    console.log("Export report", filteredInvoices.value);
 };
 </script>
 

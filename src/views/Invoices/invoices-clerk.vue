@@ -36,7 +36,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(invoice, index) in filteredInvoices" :key="invoice.iid">
+        <tr v-for="invoice in filteredInvoices" :key="invoice.iid">
           <td>{{ invoice.iid }}</td>
           <td>{{ invoice.filename }}</td>
           <td>{{ invoice.createDate }}</td>
@@ -50,58 +50,53 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "InvoicesClerk",
-  data() {
-    return {
-      createdFrom: "",
-      createdTo: "",
-      processedFrom: "",
-      processedTo: "",
-      filters: {
-        iid: "",
-        filename: "",
-        processor: ""
-      },
-      invoices: [
-        {
-          iid: "AP000031",
-          filename: "CocaBola_Invoice001.pdf",
-          createDate: "2025-01-31 08:49:40",
-          processDate: "NA",
-          processor: "Unassigned",
-          status: "New"
-        },
-        {
-          iid: "AP000865",
-          filename: "Chamito_Invoice001.pdf",
-          createDate: "2025-01-31 08:49:40",
-          processDate: "NA",
-          processor: "Juan dela Cruz",
-          status: "Assigned"
-        }
-      ]
-    };
+<script setup>
+import { ref, computed } from 'vue';
+
+const createdFrom = ref('');
+const createdTo = ref('');
+const processedFrom = ref('');
+const processedTo = ref('');
+
+const filters = ref({
+  iid: '',
+  filename: '',
+  processor: ''
+});
+
+const invoices = ref([
+  {
+    iid: "AP000031",
+    filename: "CocaBola_Invoice001.pdf",
+    createDate: "2025-01-31 08:49:40",
+    processDate: "NA",
+    processor: "Unassigned",
+    status: "New"
   },
-  computed: {
-    filteredInvoices() {
-      return this.invoices.filter(invoice => {
-        return (
-          (invoice.status === "New" || invoice.status === "Assigned") &&
-          invoice.iid.toLowerCase().includes(this.filters.iid.toLowerCase()) &&
-          invoice.filename.toLowerCase().includes(this.filters.filename.toLowerCase()) &&
-          invoice.processor.toLowerCase().includes(this.filters.processor.toLowerCase())
-        );
-      });
-    }
-  },
-  methods: {
-    assignInvoice(invoice) {
-      console.log("Assign invoice", invoice);
-      // Implement assign functionality for clerk.
-    }
+  {
+    iid: "AP000865",
+    filename: "Chamito_Invoice001.pdf",
+    createDate: "2025-01-31 08:49:40",
+    processDate: "NA",
+    processor: "Juan dela Cruz",
+    status: "Assigned"
   }
+]);
+
+const filteredInvoices = computed(() => {
+  return invoices.value.filter(invoice => {
+    return (
+      (invoice.status === "New" || invoice.status === "Assigned") &&
+      invoice.iid.toLowerCase().includes(filters.value.iid.toLowerCase()) &&
+      invoice.filename.toLowerCase().includes(filters.value.filename.toLowerCase()) &&
+      invoice.processor.toLowerCase().includes(filters.value.processor.toLowerCase())
+    );
+  });
+});
+
+const assignInvoice = (invoice) => {
+  console.log("Assign invoice", invoice);
+  // Implement assign functionality for clerk.
 };
 </script>
 
