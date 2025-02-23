@@ -18,23 +18,15 @@
     <table class="invoice-table">
       <thead>
         <tr>
-          <th>
-            IID
-            <input type="text" class="text-filter" placeholder="Search IID" v-model="filters.iid" />
-          </th>
-          <th>
-            Filename
-            <input type="text" class="text-filter" placeholder="Search Filename" v-model="filters.filename" />
-          </th>
+          <th>IID <input type="text" class="text-filter" placeholder="Search IID" v-model="filters.iid" /></th>
+          <th>Filename <input type="text" class="text-filter" placeholder="Search Filename"
+              v-model="filters.filename" /></th>
           <th>Create Date</th>
           <th>Process Date</th>
-          <th>
-            Processor
-            <input type="text" class="text-filter" placeholder="Search Processor" v-model="filters.processor" />
-          </th>
+          <th>Processor <input type="text" class="text-filter" placeholder="Search Processor"
+              v-model="filters.processor" /></th>
           <th>Action</th>
-          <th>
-            Status
+          <th>Status
             <select class="status-filter" v-model="filters.status">
               <option value="">All</option>
               <option value="New">NEW</option>
@@ -45,7 +37,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(invoice, index) in filteredInvoices" :key="invoice.iid">
+        <tr v-for="invoice in paginatedInvoices" :key="invoice.iid">
           <td>{{ invoice.iid }}</td>
           <td>{{ invoice.filename }}</td>
           <td>{{ invoice.createDate }}</td>
@@ -53,14 +45,19 @@
           <td>{{ invoice.processor }}</td>
           <td>
             <button @click="showInvoice(invoice)">Show</button>
-            <button v-if="invoice.status === 'New' || invoice.status === 'Assigned'" @click="assignInvoice(invoice)">
-              Assign
-            </button>
+            <button v-if="invoice.status === 'New' || invoice.status === 'Assigned'"
+              @click="assignInvoice(invoice)">Assign</button>
           </td>
           <td>{{ invoice.status }}</td>
         </tr>
       </tbody>
     </table>
+    <div class="pagination">
+      <button @click="prevPage" :disabled="currentPage === 1">Previous</button>
+      <button v-for="page in totalPages" :key="page" @click="goToPage(page)"
+        :class="{ active: currentPage === page }">{{ page }}</button>
+      <button @click="nextPage" :disabled="currentPage === totalPages">Next</button>
+    </div>
   </div>
 </template>
 
@@ -74,14 +71,9 @@ const createdFrom = ref('');
 const createdTo = ref('');
 const processedFrom = ref('');
 const processedTo = ref('');
-
-const filters = ref({
-  iid: '',
-  filename: '',
-  processor: '',
-  status: ''
-});
-
+const filters = ref({ iid: '', filename: '', processor: '', status: '' });
+const itemsPerPage = ref(10);
+const currentPage = ref(1);
 const invoices = ref([
   {
     iid: "AP000031",
@@ -106,9 +98,112 @@ const invoices = ref([
     processDate: "2025-02-03 10:36:41",
     processor: "Reina Tatlonghari",
     status: "Cancelled"
-  }
+  },
+  {
+    iid: "AP000865",
+    filename: "Chamito_Invoice001.pdf",
+    createDate: "2025-01-31 08:49:40",
+    processDate: "NA",
+    processor: "Juan dela Cruz",
+    status: "Assigned"
+  },
+  {
+    iid: "AP000865",
+    filename: "Chamito_Invoice001.pdf",
+    createDate: "2025-01-31 08:49:40",
+    processDate: "NA",
+    processor: "Juan dela Cruz",
+    status: "Assigned"
+  },
+  {
+    iid: "AP000865",
+    filename: "Chamito_Invoice001.pdf",
+    createDate: "2025-01-31 08:49:40",
+    processDate: "NA",
+    processor: "Juan dela Cruz",
+    status: "Assigned"
+  },
+  {
+    iid: "AP000865",
+    filename: "Chamito_Invoice001.pdf",
+    createDate: "2025-01-31 08:49:40",
+    processDate: "NA",
+    processor: "Juan dela Cruz",
+    status: "Assigned"
+  },
+  {
+    iid: "AP000865",
+    filename: "Chamito_Invoice001.pdf",
+    createDate: "2025-01-31 08:49:40",
+    processDate: "NA",
+    processor: "Juan dela Cruz",
+    status: "Assigned"
+  },
+  {
+    iid: "AP000865",
+    filename: "Chamito_Invoice001.pdf",
+    createDate: "2025-01-31 08:49:40",
+    processDate: "NA",
+    processor: "Juan dela Cruz",
+    status: "Assigned"
+  },
+  {
+    iid: "AP000865",
+    filename: "Chamito_Invoice001.pdf",
+    createDate: "2025-01-31 08:49:40",
+    processDate: "NA",
+    processor: "Juan dela Cruz",
+    status: "Assigned"
+  },
+  {
+    iid: "AP000865",
+    filename: "Chamito_Invoice001.pdf",
+    createDate: "2025-01-31 08:49:40",
+    processDate: "NA",
+    processor: "Juan dela Cruz",
+    status: "Assigned"
+  },
+  {
+    iid: "AP000865",
+    filename: "Chamito_Invoice001.pdf",
+    createDate: "2025-01-31 08:49:40",
+    processDate: "NA",
+    processor: "Juan dela Cruz",
+    status: "Assigned"
+  },
+  {
+    iid: "AP000865",
+    filename: "Chamito_Invoice001.pdf",
+    createDate: "2025-01-31 08:49:40",
+    processDate: "NA",
+    processor: "Juan dela Cruz",
+    status: "Assigned"
+  },
+  {
+    iid: "AP000865",
+    filename: "Chamito_Invoice001.pdf",
+    createDate: "2025-01-31 08:49:40",
+    processDate: "NA",
+    processor: "Juan dela Cruz",
+    status: "Assigned"
+  },
+  {
+    iid: "AP000865",
+    filename: "Chamito_Invoice001.pdf",
+    createDate: "2025-01-31 08:49:40",
+    processDate: "NA",
+    processor: "Juan dela Cruz",
+    status: "Assigned"
+  },
+  {
+    iid: "AP000865",
+    filename: "Chamito_Invoice001.pdf",
+    createDate: "2025-01-31 08:49:40",
+    processDate: "NA",
+    processor: "Juan dela Cruz",
+    status: "Assigned"
+  },
 ]);
-
 const filteredInvoices = computed(() => {
   return invoices.value.filter(invoice => {
     return (
@@ -120,18 +215,22 @@ const filteredInvoices = computed(() => {
   });
 });
 
-const showInvoice = (invoice) => {
-  router.push(`/invoice/${invoice.iid}/show/admin`);
-};
+const totalPages = computed(() => Math.ceil(filteredInvoices.value.length / itemsPerPage.value));
+const paginatedInvoices = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage.value;
+  return filteredInvoices.value.slice(start, start + itemsPerPage.value);
+});
 
-const assignInvoice = (invoice) => {
-  console.log("Assign invoice", invoice);
-};
+const goToPage = (page) => { currentPage.value = page; };
+const prevPage = () => { if (currentPage.value > 1) currentPage.value--; };
+const nextPage = () => { if (currentPage.value < totalPages.value) currentPage.value++; };
 
-const exportReport = () => {
-  console.log("Exporting report", filteredInvoices.value);
-};
+const showInvoice = (invoice) => { router.push(`/invoice/${invoice.iid}/show/admin`); };
+const assignInvoice = (invoice) => { console.log("Assign invoice", invoice); };
+const exportReport = () => { console.log("Exporting report", filteredInvoices.value); };
 </script>
+
+
 
 <style scoped>
 .container {
@@ -210,5 +309,24 @@ const exportReport = () => {
   border: 1px solid #ddd;
   border-radius: 4px;
   background-color: #fff;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  background-color: white;
+  cursor: pointer;
+}
+
+.pagination .active {
+  background-color: #007bff;
+  color: white;
 }
 </style>

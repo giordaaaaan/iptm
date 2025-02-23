@@ -80,8 +80,8 @@ const isActive = (path) => {
 
 /* Active class for the selected route */
 .menu li a.active {
-    background-color: #d32f2f;
-    color: white;
+    background-color: #ddd;
+    color: rgb(0, 0, 0);
     font-weight: bold;
 }
 

@@ -1,8 +1,9 @@
 <template>
   <div>
-    <h1>Invoice Details</h1>
     <div class="container">
       <div class="left-panel">
+        <h1>Invoice Details</h1>
+        <h3>Extracted Fields</h3>
         <table class="invoice-table">
           <thead>
             <tr>
@@ -26,9 +27,9 @@
           <button class="btn-assign" @click="assignProcessor">Assign Processor</button>
         </p>
       </div>
-      <div class="right-panel">
+      <!-- <div class="right-panel">
         <iframe :src="documentSrc" frameborder="0"></iframe>
-      </div>
+      </div> -->
     </div>
     <div>
       <p class="box">
@@ -79,6 +80,7 @@ const formatKey = (key) => {
 
 <style scoped>
 .container {
+  margin: 0px 20px 20px 150px;
   display: flex;
   width: 95%;
   padding: 20px;
@@ -147,7 +149,7 @@ const formatKey = (key) => {
 
 .btn-assign,
 .btn-assign1 {
-  padding: 10px 20px;
+  padding: 5px;
   font-size: 14px;
   background-color: #007BFF;
   color: white;
@@ -167,9 +169,22 @@ iframe {
   border: none;
 }
 
+body,
+html {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  /* Prevent vertical scrolling */
+}
+
 .box {
   outline-style: solid;
   outline-width: 2px;
-  width: 1380px;
+  width: 1000px;
+  /* Adjusted to be smaller */
+  margin-left: 150px;
+  display: flex;
+  align-items: center;
+  padding: 5px;
 }
 </style>

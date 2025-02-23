@@ -113,9 +113,9 @@ const exportReport = () => {
 
 <style scoped>
 .container {
-  margin: 20px 20px 20px 100px;
+  margin: 20px 20px 20px 110px;
   /* Top, Right, Bottom, Left */
-  width: calc(100% - 100px);
+  width: calc(100% - 110px);
   background-color: white;
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -159,7 +159,7 @@ const exportReport = () => {
   margin-top: 20px;
   border-collapse: collapse;
   font-size: 12px;
-  table-layout: fixed;
+  table-layout: auto;
 }
 
 .invoice-table th,
@@ -168,6 +168,10 @@ const exportReport = () => {
   text-align: left;
   color: #333;
   border: 1px solid #ddd;
+  word-wrap: break-word;
+  white-space: normal;
+  overflow-wrap: break-word;
+
 }
 
 .invoice-table th {

@@ -12,75 +12,12 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td><strong>VendorName:</strong></td>
-              <td>{{ invoice.vendorName }}</td>
-              <td><input type="text" v-model="invoice.modifiedVendorName" class="editable-cell" /></td>
-            </tr>
-            <tr>
-              <td><strong>CustomerName:</strong></td>
-              <td>{{ invoice.customerName }}</td>
-              <td><input type="text" v-model="invoice.modifiedCustomerName" class="editable-cell" /></td>
-            </tr>
-            <tr>
-              <td><strong>InvoiceNumber:</strong></td>
-              <td>{{ invoice.invoiceNumber }}</td>
-              <td><input type="text" v-model="invoice.modifiedInvoiceNumber" class="editable-cell" /></td>
-            </tr>
-            <tr>
-              <td><strong>PONumber:</strong></td>
-              <td>{{ invoice.poNumber }}</td>
-              <td><input type="text" v-model="invoice.modifiedPONumber" class="editable-cell" /></td>
-            </tr>
-            <tr>
-              <td><strong>GR Number:</strong></td>
-              <td>{{ invoice.grNumber }}</td>
-              <td><input type="text" v-model="invoice.modifiedGRNumber" class="editable-cell" /></td>
-            </tr>
-            <tr>
-              <td><strong>BIR Number:</strong></td>
-              <td>{{ invoice.birNumber }}</td>
-              <td><input type="text" v-model="invoice.modifiedBIRNumber" class="editable-cell" /></td>
-            </tr>
-            <tr>
-              <td><strong>HCTIN:</strong></td>
-              <td>{{ invoice.hcTin }}</td>
-              <td><input type="text" v-model="invoice.modifiedHCTin" class="editable-cell" /></td>
-            </tr>
-            <tr>
-              <td><strong>VendorTIN:</strong></td>
-              <td>{{ invoice.vendorTin }}</td>
-              <td><input type="text" v-model="invoice.modifiedVendorTin" class="editable-cell" /></td>
-            </tr>
-            <tr>
-              <td><strong>InvoiceType:</strong></td>
-              <td>{{ invoice.invoiceType }}</td>
-              <td><input type="text" v-model="invoice.modifiedInvoiceType" class="editable-cell" /></td>
-            </tr>
-            <tr>
-              <td><strong>InvoiceDate:</strong></td>
-              <td>{{ invoice.invoiceDate }}</td>
-              <td><input type="text" v-model="invoice.modifiedInvoiceDate" class="editable-cell" /></td>
-            </tr>
-            <tr>
-              <td><strong>DueDate:</strong></td>
-              <td>{{ invoice.dueDate }}</td>
-              <td><input type="text" v-model="invoice.modifiedDueDate" class="editable-cell" /></td>
-            </tr>
-            <tr>
-              <td><strong>TotalAmount:</strong></td>
-              <td>{{ invoice.totalAmount }}</td>
-              <td><input type="text" v-model="invoice.modifiedTotalAmount" class="editable-cell" /></td>
-            </tr>
-            <tr>
-              <td><strong>TotalAmountWords:</strong></td>
-              <td>{{ invoice.totalAmountWords }}</td>
-              <td><input type="text" v-model="invoice.modifiedTotalAmountWords" class="editable-cell" /></td>
-            </tr>
-            <tr>
-              <td><strong>Currency:</strong></td>
-              <td>{{ invoice.currency }}</td>
-              <td><input type="text" v-model="invoice.modifiedCurrency" class="editable-cell" /></td>
+            <tr v-for="(value, key) in invoice" :key="key">
+              <td><strong>{{ formatKey(key) }}:</strong></td>
+              <td>{{ value }}</td>
+              <td>
+                <input v-if="isEditableField(key)" type="text" v-model="modifiedInvoice[key]" class="editable-cell" />
+              </td>
             </tr>
           </tbody>
         </table>
@@ -96,49 +33,55 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "InvoiceShowProcessor",
-  data() {
-    return {
-      invoice: {
-        vendorName: "MEDIA METER INC.",
-        customerName: "HC Consumer Finance Philippines, Inc.",
-        invoiceNumber: "1005",
-        poNumber: "140001670",
-        grNumber: "1234567890",
-        birNumber: "039AU202400003236",
-        hcTin: "8453991-xxxx",
-        vendorTin: "235-594-375-0000",
-        invoiceType: "Service Invoice",
-        invoiceDate: "07/22/2024",
-        dueDate: "08/21/2024",
-        totalAmount: "29700.00",
-        totalAmountWords: "None",
-        currency: "PHP",
-        modifiedVendorName: "",
-        modifiedCustomerName: "",
-        modifiedInvoiceNumber: "",
-        modifiedPONumber: "",
-        modifiedGRNumber: "",
-        modifiedBIRNumber: "",
-        modifiedHCTin: "",
-        modifiedVendorTin: "",
-        modifiedInvoiceType: "",
-        modifiedInvoiceDate: "",
-        modifiedDueDate: "",
-        modifiedTotalAmount: "",
-        modifiedTotalAmountWords: "",
-        modifiedCurrency: ""
-      },
-      documentSrc: "pdfs/Screenshot.pdf"
-    };
-  },
-  methods: {
-    saveInvoice() {
-      console.log("Invoice saved", this.invoice);
-    }
-  }
+<script setup>
+import { ref, reactive } from 'vue';
+
+const invoice = reactive({
+  vendorName: "MEDIA METER INC.",
+  customerName: "HC Consumer Finance Philippines, Inc.",
+  invoiceNumber: "1005",
+  poNumber: "140001670",
+  grNumber: "1234567890",
+  birNumber: "039AU202400003236",
+  hcTin: "8453991-xxxx",
+  vendorTin: "235-594-375-0000",
+  invoiceType: "Service Invoice",
+  invoiceDate: "07/22/2024",
+  dueDate: "08/21/2024",
+  totalAmount: "29700.00",
+  totalAmountWords: "None",
+  currency: "PHP"
+});
+
+const modifiedInvoice = reactive({
+  modifiedVendorName: "",
+  modifiedCustomerName: "",
+  modifiedInvoiceNumber: "",
+  modifiedPONumber: "",
+  modifiedGRNumber: "",
+  modifiedBIRNumber: "",
+  modifiedHCTin: "",
+  modifiedVendorTin: "",
+  modifiedInvoiceType: "",
+  modifiedInvoiceDate: "",
+  modifiedDueDate: "",
+  modifiedTotalAmount: "",
+  modifiedTotalAmountWords: "",
+  modifiedCurrency: ""
+});
+
+const documentSrc = ref("pdfs/Screenshot.pdf");
+
+const saveInvoice = () => {
+  console.log("Invoice saved", { original: invoice, modified: modifiedInvoice });
+};
+
+const formatKey = (key) => {
+  return key.replace(/([A-Z])/g, ' $1').trim();
+};
+
+const isEditableField = (key) => {
+  return key.startsWith("modified");
 };
 </script>
 
@@ -182,12 +125,6 @@ export default {
 .invoice-table th {
   background-color: #ffffff;
   font-weight: bold;
-}
-
-.invoice-table tr:first-child td,
-.invoice-table tr:last-child td {
-  border-top: none;
-  border-bottom: none;
 }
 
 .invoice-table tr:nth-child(even) {
