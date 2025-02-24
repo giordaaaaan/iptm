@@ -22,37 +22,42 @@
             </tr>
           </tbody>
         </table>
+
         <p>
           For further processing you can:
           <button class="btn-assign" @click="assignProcessor">Assign Processor...</button>
         </p>
-        <br/>
+        <br />
+
         <p>
           If some values are wrong, you can modify them.
-          <button class="btn-assign" @click="">Edit Values</button>
+          <button class="btn-assign">Edit Values</button>
         </p>
-        <br/>
+        <br />
 
         <p>
           You can return the invoice back to the requestor.
-          <button class="btn-assign2" @click="">Return Back to Requestor...</button>
+          <button class="btn-assign2" @click="goToReturnInvoice">Return Back to Requestor...</button>
         </p>
-        
+        <br />
+
         <p>
           You can cancel the invoice and give a reason to the requestor.
-          <button class="btn-assign2" @click="">Cancel</button>
+          <button class="btn-assign2">Cancel</button>
         </p>
-        <br/>
-      
+        <br />
+
         <p>
           If you are satisfied with invoice values,
-          <button class="btn-assign3" @click="">Set Invoice as Processed</button>
+          <button class="btn-assign3">Set Invoice as Processed</button>
         </p>
       </div>
+
       <!-- <div class="right-panel">
         <iframe :src="documentSrc" frameborder="0"></iframe>
       </div> -->
     </div>
+
     <div>
       <p class="box">
         Remarks:
@@ -64,8 +69,10 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'  // 1. Import useRouter
 
+// Sample invoice data
 const invoice = ref({
   vendorName: "MEDIA METER INC.",
   customerName: "HC Consumer Finance Philippines, Inc.",
@@ -81,23 +88,33 @@ const invoice = ref({
   totalAmount: "29700.00",
   totalAmountWords: "None",
   currency: "PHP"
-});
+})
 
-const modifiedInvoice = ref({ ...invoice.value });
-const remarks = ref("");
-const documentSrc = ref("pdfs/Screenshot.pdf");
+const modifiedInvoice = ref({ ...invoice.value })
+const remarks = ref("")
+const documentSrc = ref("pdfs/Screenshot.pdf")
+
+// 2. Create a router instance
+const router = useRouter()
 
 const assignProcessor = () => {
-  console.log("Assign Processor triggered");
-};
+  console.log("Assign Processor triggered")
+}
+
+// 3. Define a method to navigate
+const goToReturnInvoice = () => {
+  // Adjust the path or route name as needed
+  router.push(`/invoice/return-invoice`)
+}
 
 const saveRemarks = () => {
-  console.log("Remarks saved:", remarks.value);
-};
+  console.log("Remarks saved:", remarks.value)
+}
 
+// Helper to convert camelCase keys into a more readable format
 const formatKey = (key) => {
-  return key.replace(/([A-Z])/g, ' $1').trim();
-};
+  return key.replace(/([A-Z])/g, ' $1').trim()
+}
 </script>
 
 <style scoped>
@@ -109,7 +126,7 @@ const formatKey = (key) => {
 }
 
 .left-panel {
-  width: 50%;
+  width: 55%;
   padding-right: 20px;
   box-sizing: border-box;
 }
@@ -222,8 +239,7 @@ body,
 html {
   margin: 0;
   padding: 0;
-  overflow: hidden;
-  /* Prevent vertical scrolling */
+  overflow: hidden; /* Prevent vertical scrolling */
 }
 
 .box {
