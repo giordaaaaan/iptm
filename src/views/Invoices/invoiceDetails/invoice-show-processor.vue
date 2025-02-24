@@ -1,8 +1,9 @@
 <template>
   <div>
-    <h1>Invoice Details</h1>
     <div class="container">
       <div class="left-panel">
+        <h1>Invoice Details</h1>
+        <h3>Extracted Fields</h3>
         <table class="invoice-table">
           <thead>
             <tr>
@@ -16,27 +17,56 @@
               <td><strong>{{ formatKey(key) }}:</strong></td>
               <td>{{ value }}</td>
               <td>
-                <input v-if="isEditableField(key)" type="text" v-model="modifiedInvoice[key]" class="editable-cell" />
+                <input type="text" v-model="modifiedInvoice[key]" class="editable-cell" />
               </td>
             </tr>
           </tbody>
         </table>
         <p>
           For further processing you can:
-          <button class="btn-assign1" @click="saveInvoice">Save</button>
+          <button class="btn-assign" @click="assignProcessor">Assign Processor...</button>
+        </p>
+        <br/>
+        <p>
+          If some values are wrong, you can modify them.
+          <button class="btn-assign" @click="">Edit Values</button>
+        </p>
+        <br/>
+
+        <p>
+          You can return the invoice back to the requestor.
+          <button class="btn-assign2" @click="">Return Back to Requestor...</button>
+        </p>
+        
+        <p>
+          You can cancel the invoice and give a reason to the requestor.
+          <button class="btn-assign2" @click="">Cancel</button>
+        </p>
+        <br/>
+      
+        <p>
+          If you are satisfied with invoice values,
+          <button class="btn-assign3" @click="">Set Invoice as Processed</button>
         </p>
       </div>
-      <div class="right-panel">
+      <!-- <div class="right-panel">
         <iframe :src="documentSrc" frameborder="0"></iframe>
-      </div>
+      </div> -->
+    </div>
+    <div>
+      <p class="box">
+        Remarks:
+        <input type="text" v-model="remarks" class="editable-cell1" />
+        <button class="btn-assign1" @click="saveRemarks">Save</button>
+      </p>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref } from 'vue';
 
-const invoice = reactive({
+const invoice = ref({
   vendorName: "MEDIA METER INC.",
   customerName: "HC Consumer Finance Philippines, Inc.",
   invoiceNumber: "1005",
@@ -53,40 +83,26 @@ const invoice = reactive({
   currency: "PHP"
 });
 
-const modifiedInvoice = reactive({
-  modifiedVendorName: "",
-  modifiedCustomerName: "",
-  modifiedInvoiceNumber: "",
-  modifiedPONumber: "",
-  modifiedGRNumber: "",
-  modifiedBIRNumber: "",
-  modifiedHCTin: "",
-  modifiedVendorTin: "",
-  modifiedInvoiceType: "",
-  modifiedInvoiceDate: "",
-  modifiedDueDate: "",
-  modifiedTotalAmount: "",
-  modifiedTotalAmountWords: "",
-  modifiedCurrency: ""
-});
-
+const modifiedInvoice = ref({ ...invoice.value });
+const remarks = ref("");
 const documentSrc = ref("pdfs/Screenshot.pdf");
 
-const saveInvoice = () => {
-  console.log("Invoice saved", { original: invoice, modified: modifiedInvoice });
+const assignProcessor = () => {
+  console.log("Assign Processor triggered");
+};
+
+const saveRemarks = () => {
+  console.log("Remarks saved:", remarks.value);
 };
 
 const formatKey = (key) => {
   return key.replace(/([A-Z])/g, ' $1').trim();
 };
-
-const isEditableField = (key) => {
-  return key.startsWith("modified");
-};
 </script>
 
 <style scoped>
 .container {
+  margin: 0px 20px 20px 150px;
   display: flex;
   width: 95%;
   padding: 20px;
@@ -144,8 +160,18 @@ const isEditableField = (key) => {
   outline: none;
 }
 
+.editable-cell1 {
+  width: 1200px;
+  border: none;
+  font-size: 14px;
+  padding: 5px;
+  background-color: rgb(245, 242, 242);
+  outline: none;
+}
+
+.btn-assign,
 .btn-assign1 {
-  padding: 10px 20px;
+  padding: 5px;
   font-size: 14px;
   background-color: #007BFF;
   color: white;
@@ -154,14 +180,60 @@ const isEditableField = (key) => {
   border-radius: 4px;
 }
 
-.btn-assign1:hover {
+.btn-assign:hover {
   background-color: #0056b3;
+}
+
+.btn-assign2 {
+  padding: 5px;
+  font-size: 14px;
+  background-color: #ffd700;
+  color: rgb(0, 0, 0);
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.btn-assign2:hover {
+  background-color: #d4af37;
+}
+
+.btn-assign3 {
+  padding: 5px;
+  font-size: 14px;
+  background-color: #08a045;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.btn-assign3:hover {
+  background-color: #0b6e4f;
 }
 
 iframe {
   width: 90%;
   height: 90%;
   border: none;
-  align-items: left;
+}
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  /* Prevent vertical scrolling */
+}
+
+.box {
+  outline-style: solid;
+  outline-width: 2px;
+  width: 1000px;
+  /* Adjusted to be smaller */
+  margin-left: 150px;
+  display: flex;
+  align-items: center;
+  padding: 5px;
 }
 </style>
