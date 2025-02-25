@@ -5,7 +5,12 @@
         <label for="processed-from">Processed From:</label>
         <input type="date" id="processed-from" v-model="processedFrom" />
         <label for="processed-to">To:</label>
-        <input type="date" id="processed-to" v-model="processedTo" />
+        <input type="date"
+               id="processed-to"
+               v-model="processedTo"
+               :min="processedFrom"
+               :max="maxProcessedTo"
+               :disabled="!processedFrom" />
       </div>
       <button class="export-btn" @click="exportReport">EXPORT REPORT</button>
     </div>
@@ -34,7 +39,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(report, index) in reports" :key="index">
+        <tr v-for="(report, index) in filteredReports" :key="index">
           <td>{{ index + 1 }}</td>
           <td>{{ report.processedDate }}</td>
           <td>{{ report.processedBy }}</td>
@@ -60,10 +65,12 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 
 const processedFrom = ref('');
 const processedTo = ref('');
+
+// Sample reports data (replace with your API call)
 const reports = ref([
   {
     processedDate: "2025-01-29 20:40:05",
@@ -104,6 +111,30 @@ const reports = ref([
     currency: "PHP"
   }
 ]);
+
+// Compute maximum allowable "Processed to" date (1-month limit)
+const maxProcessedTo = computed(() => {
+  if (!processedFrom.value) return '';
+  const fromDate = new Date(processedFrom.value);
+  fromDate.setMonth(fromDate.getMonth() + 1);
+  return fromDate.toISOString().split('T')[0];
+});
+
+// Filter reports based on processed date range
+const filteredReports = computed(() => {
+  return reports.value.filter(report => {
+    let valid = true;
+    // Extract the date portion (YYYY-MM-DD)
+    const reportDate = report.processedDate.substring(0, 10);
+    if (processedFrom.value) {
+      valid = valid && (reportDate >= processedFrom.value);
+    }
+    if (processedTo.value) {
+      valid = valid && (reportDate <= processedTo.value);
+    }
+    return valid;
+  });
+});
 
 const exportReport = () => {
   console.log("Exporting report", reports.value);
@@ -171,7 +202,6 @@ const exportReport = () => {
   word-wrap: break-word;
   white-space: normal;
   overflow-wrap: break-word;
-
 }
 
 .invoice-table th {

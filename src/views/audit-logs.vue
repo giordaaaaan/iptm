@@ -9,15 +9,25 @@
       </div>
       <div class="form-row">
         <label for="end-date">To Date:</label>
-        <input type="date" id="end-date" v-model="endDate" required>
+        <input type="date"
+               id="end-date"
+               v-model="endDate"
+               :min="startDate"
+               :max="maxEndDate"
+               :disabled="!startDate"
+               required>
         <p class="info-text">Audit logs to the given date (included)</p>
       </div>
       <div class="form-row">
         <button @click="submitDates">Submit</button>
       </div>
     </div>
+    <hr />
+    <br />
     <div class="results">
-      <p>Showing results from <span>{{ startDateDisplay }}</span> to <span>{{ endDateDisplay }}</span></p>
+      <span>
+        Showing results from <span>{{ appliedStartDateDisplay }}</span> to <span>{{ appliedEndDateDisplay }}</span>
+      </span>
       <button class="export-btn" @click="exportLogs">Export to CSV</button>
     </div>
     <table class="audit-table">
@@ -31,7 +41,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(log, index) in auditLogs" :key="index">
+        <tr v-for="(log, index) in filteredAuditLogs" :key="index">
           <td>{{ index + 1 }}</td>
           <td>{{ log.created }}</td>
           <td>{{ log.user }}</td>
@@ -49,6 +59,11 @@ import { ref, computed } from 'vue';
 const startDate = ref('');
 const endDate = ref('');
 
+// Variables to store the applied dates after clicking "Submit"
+const appliedStartDate = ref('');
+const appliedEndDate = ref('');
+
+// Sample audit logs (replace with your API call)
 const auditLogs = ref([
   {
     created: "2025-01-25 20:37:12.17133",
@@ -62,19 +77,46 @@ const auditLogs = ref([
     action: "UPDATED",
     resource: "INVOICE / 9a01a942-f984-45f7-a342-263af283164d"
   }
+  // ... more rows as needed
 ]);
 
-const startDateDisplay = computed(() => startDate.value || "N/A");
-const endDateDisplay = computed(() => endDate.value || "N/A");
+// Compute maximum allowable "To Date" (1 month after startDate)
+const maxEndDate = computed(() => {
+  if (!startDate.value) return '';
+  const from = new Date(startDate.value);
+  from.setMonth(from.getMonth() + 1);
+  return from.toISOString().split('T')[0];
+});
+
+// Display values for applied dates
+const appliedStartDateDisplay = computed(() => appliedStartDate.value || "N/A");
+const appliedEndDateDisplay = computed(() => appliedEndDate.value || "N/A");
+
+// Filter audit logs based on the applied date range (compare first 10 characters)
+const filteredAuditLogs = computed(() => {
+  return auditLogs.value.filter(log => {
+    const logDate = log.created.substring(0, 10);
+    let valid = true;
+    if (appliedStartDate.value) {
+      valid = valid && (logDate >= appliedStartDate.value);
+    }
+    if (appliedEndDate.value) {
+      valid = valid && (logDate <= appliedEndDate.value);
+    }
+    return valid;
+  });
+});
 
 const submitDates = () => {
   console.log("Dates submitted", startDate.value, endDate.value);
-  // Filter audit logs based on the dates.
+  // Update the applied dates only when the user clicks Submit
+  appliedStartDate.value = startDate.value;
+  appliedEndDate.value = endDate.value;
 };
 
 const exportLogs = () => {
-  console.log("Export logs", auditLogs.value);
-  // Implement export functionality.
+  console.log("Export logs", filteredAuditLogs.value);
+  // Implement export functionality as needed.
 };
 </script>
 
@@ -93,7 +135,7 @@ const exportLogs = () => {
 }
 
 .form-container {
-  margin-bottom: 20px;
+  margin-bottom: 5px;
 }
 
 .form-row {
@@ -116,15 +158,17 @@ const exportLogs = () => {
   line-height: 1;
 }
 
+/* Results row: flex container with text left and export button right */
 .results {
-  margin-bottom: 20px;
-  font-size: 12px;
-  color: #555;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+  font-size: 15px;
+  color: #000000;
 }
 
 .export-btn {
-  display: block;
-  margin-top: 10px;
   padding: 8px 15px;
   background-color: #d32f2f;
   color: white;
